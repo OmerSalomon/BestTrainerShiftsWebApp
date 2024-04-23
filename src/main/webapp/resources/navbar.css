@@ -1,0 +1,38 @@
+/* navbar.css */
+
+/* Base styling for the navbar */
+.navbar {
+    background-color: #4CAF50; /* Green background */
+    overflow: hidden; /* Ensures the content fits within the navbar */
+    font-family: Arial, sans-serif; /* Font styling */
+}
+
+/* Links inside the navbar */
+.navbar a {
+    float: left; /* Aligns links to the left side */
+    color: white; /* Text color */
+    text-align: center; /* Centers text within the link */
+    padding: 14px 16px; /* Padding inside the link elements */
+    text-decoration: none; /* Removes underline from links */
+    font-size: 17px; /* Font size */
+}
+
+/* Changes background color on hover */
+.navbar a:hover {
+    background-color: #ddd; /* Light grey background */
+    color: black; /* Text color changes to black */
+}
+
+/* Active/current link */
+.navbar a.active {
+    background-color: #666; /* Darker shade for the active link */
+    color: white;
+}
+
+/* Responsive navbar */
+@media screen and (max-width: 600px) {
+    .navbar a {
+        float: none; /* Stack links vertically on small screens */
+        display: block; /* Display links as blocks */
+    }
+}
