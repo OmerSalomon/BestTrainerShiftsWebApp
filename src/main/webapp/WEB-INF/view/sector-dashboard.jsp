@@ -118,11 +118,20 @@
             <input type="text" name="name" required>
         </div>
         <div class="section">
-            <label class="bold">Required Number of Trainers:</label>
-            <input type="number" step="1" min="1" name="requiredNumberOfTrainers" required>
+            <label class="bold">Morning Shift Size:</label>
+            <input type="number" step="1" min="0" name="morningShiftSize" required>
+        </div>
+        <div class="section">
+            <label class="bold">Noon Shift Size:</label>
+            <input type="number" step="1" min="0" name="noonShiftSize" required>
+        </div>
+        <div class="section">
+            <label class="bold">Evening Shift Size:</label>
+            <input type="number" step="1" min="0" name="eveningShiftSize" required>
         </div>
         <input type="submit" value="Add Sector">
     </form>
+
 
     <!-- Sector List -->
     <h3>Sector List</h3>
@@ -132,13 +141,17 @@
                 <tr>
                     <th>Select</th>
                     <th>Name</th>
-                    <th>Required Number of Trainers</th>
+                    <th>Morning Shift</th>
+                    <th>Noon Shift</th>
+                    <th>Evening Shift</th>
                 </tr>
                 <c:forEach items="${sectors}" var="sector">
                     <tr>
                         <td><input type="radio" name="selectedSectorId" value="${sector.id}" required></td>
                         <td>${sector.name}</td>
-                        <td>${sector.requiredNumberOfTrainers}</td>
+                        <td>${sector.morningShiftSize}</td>
+                        <td>${sector.noonShiftSize}</td>
+                        <td>${sector.eveningShiftSize}</td>
                     </tr>
                 </c:forEach>
             </table>
@@ -146,6 +159,7 @@
         <input type="submit" name="action" value="Edit">
         <input type="submit" name="action" value="Delete">
     </form>
+
 
     <c:if test="${not empty errorMessage}">
         <div class="error-message">${errorMessage}</div>

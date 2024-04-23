@@ -82,9 +82,18 @@
             <input type="text" id="name" name="name" value="${sector.name}" required>
         </div>
 
+        <!-- Replace single trainer field with three shift sizes -->
         <div class="section">
-            <label for="requiredNumberOfTrainers" class="bold">Required Number of Trainers:</label>
-            <input type="number" id="requiredNumberOfTrainers" name="requiredNumberOfTrainers" step="1" min="1" value="${sector.requiredNumberOfTrainers}" required>
+            <label for="morningShiftSize" class="bold">Morning Shift Size:</label>
+            <input type="number" id="morningShiftSize" name="morningShiftSize" step="1" min="0" value="${sector.morningShiftSize}" required>
+        </div>
+        <div class="section">
+            <label for="noonShiftSize" class="bold">Noon Shift Size:</label>
+            <input type="number" id="noonShiftSize" name="noonShiftSize" step="1" min="0" value="${sector.noonShiftSize}" required>
+        </div>
+        <div class="section">
+            <label for="eveningShiftSize" class="bold">Evening Shift Size:</label>
+            <input type="number" id="eveningShiftSize" name="eveningShiftSize" step="1" min="0" value="${sector.eveningShiftSize}" required>
         </div>
 
         <input type="submit" value="Update Sector">

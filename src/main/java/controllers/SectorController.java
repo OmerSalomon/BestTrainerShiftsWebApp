@@ -42,14 +42,16 @@ public class SectorController {
     @PostMapping("/addSector")
     public String addSector(HttpSession session, Model model,
                             @RequestParam String name,
-                            @RequestParam int requiredNumberOfTrainers,
+                            @RequestParam int morningShiftSize,
+                            @RequestParam int noonShiftSize,
+                            @RequestParam int eveningShiftSize,
                             @RequestParam(defaultValue = "false") boolean isManager) {
         WUser user = getUserFromSession(session);
         if (user == null) {
             return "redirect:/login";
         }
         try {
-            WSector sector = new WSector(name, requiredNumberOfTrainers, isManager);
+            WSector sector = new WSector(name, morningShiftSize, noonShiftSize, eveningShiftSize);
             sectorService.addSectorByUser(user, sector);
             return "redirect:/sectormanager/sector-dashboard";
         } catch (Exception e) {
@@ -57,6 +59,7 @@ public class SectorController {
             return "error";
         }
     }
+
 
     @PostMapping("/selectedSector")
     public String editOrDeleteSector(@RequestParam(value = "selectedSectorId", required = false) Integer sectorId, @RequestParam("action") String action, HttpSession session, Model model) {
@@ -85,7 +88,7 @@ public class SectorController {
 
     @PostMapping("/updateSector")
     public String updateSector(HttpServletRequest request, HttpSession session, Model model) {
-        WUser user = (WUser) session.getAttribute("user");
+        WUser user = getUserFromSession(session);
         if (user == null) {
             model.addAttribute("errorMessage", "Please login to update sectors.");
             return "login-form";
@@ -94,7 +97,9 @@ public class SectorController {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             String name = request.getParameter("name");
-            int requiredNumberOfTrainers = Integer.parseInt(request.getParameter("requiredNumberOfTrainers"));
+            int morningShiftSize = Integer.parseInt(request.getParameter("morningShiftSize"));
+            int noonShiftSize = Integer.parseInt(request.getParameter("noonShiftSize"));
+            int eveningShiftSize = Integer.parseInt(request.getParameter("eveningShiftSize"));
 
             WSector sector = sectorService.getSectorBySectorID(id);
             if (sector == null) {
@@ -103,7 +108,9 @@ public class SectorController {
             }
 
             sector.setName(name);
-            sector.setRequiredNumberOfTrainers(requiredNumberOfTrainers);
+            sector.setMorningShiftSize(morningShiftSize);
+            sector.setNoonShiftSize(noonShiftSize);
+            sector.setEveningShiftSize(eveningShiftSize);
 
             sectorService.updateSectorBySectorID(id, sector);
 
@@ -113,4 +120,5 @@ public class SectorController {
             return "error";
         }
     }
+
 }

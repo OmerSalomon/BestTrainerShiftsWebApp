@@ -79,9 +79,11 @@ public class Program {
 
         for (int i = 0; i < wSectors.length; i++) {
             String name = wSectors[i].getName();
-            int requiredNumberOfTrainers = wSectors[i].getRequiredNumberOfTrainers();
+            int morningShiftSize = wSectors[i].getMorningShiftSize();
+            int noonShiftSize = wSectors[i].getNoonShiftSize();
+            int eveningShiftSize = wSectors[i].getEveningShiftSize();
 
-            sectors[i] = new Sector(name, new int[] {requiredNumberOfTrainers, requiredNumberOfTrainers, requiredNumberOfTrainers});
+            sectors[i] = new Sector(name, new int[] {morningShiftSize, noonShiftSize, eveningShiftSize});
         }
 
         return sectors;

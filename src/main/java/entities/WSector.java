@@ -17,16 +17,26 @@ public class WSector {
     @Column(name = "name", length = 45, nullable = false)
     private String name;
 
-    @Column(name = "required_trainers", nullable = false)
-    private int requiredNumberOfTrainers;
+    @Column(name = "morning_shift_size", nullable = false)
+
+    private int morningShiftSize;
+    @Column(name = "noon_shift_size", nullable = false)
+
+    private int noonShiftSize;
+    @Column(name = "evening_shift_size", nullable = false)
+
+    private int eveningShiftSize;
+
 
     public WSector() {
         // Default constructor
     }
 
-    public WSector(String name, int requiredNumberOfTrainers, boolean isManager) {
+    public WSector(String name, int morningShiftSize, int noonShiftSize, int eveningShiftSize) {
         this.name = name;
-        this.requiredNumberOfTrainers = requiredNumberOfTrainers;
+        this.morningShiftSize = morningShiftSize;
+        this.noonShiftSize = noonShiftSize;
+        this.eveningShiftSize = eveningShiftSize;
     }
 
     public int getId() {
@@ -53,14 +63,27 @@ public class WSector {
         this.name = name;
     }
 
-    public int getRequiredNumberOfTrainers() {
-        return requiredNumberOfTrainers;
+    public int getMorningShiftSize() {
+        return morningShiftSize;
     }
 
-    public void setRequiredNumberOfTrainers(int requiredNumberOfTrainers) {
-        this.requiredNumberOfTrainers = requiredNumberOfTrainers;
+    public int getNoonShiftSize() {
+        return noonShiftSize;
     }
 
+    public int getEveningShiftSize() {
+        return eveningShiftSize;
+    }
 
+    public void setMorningShiftSize(int morningShiftSize) {
+        this.morningShiftSize = morningShiftSize;
+    }
 
+    public void setNoonShiftSize(int noonShiftSize) {
+        this.noonShiftSize = noonShiftSize;
+    }
+
+    public void setEveningShiftSize(int eveningShiftSize) {
+        this.eveningShiftSize = eveningShiftSize;
+    }
 }
