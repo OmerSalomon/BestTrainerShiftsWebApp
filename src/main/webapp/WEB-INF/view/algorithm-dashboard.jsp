@@ -104,7 +104,6 @@
     <h2>Algorithm Dashboard</h2>
 
     <h3>Sectors</h3>
-    <form action="selectedSector" method="post">
         <div class="scrollable-list">
             <table border="3">
                 <tr>

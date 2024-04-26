@@ -46,8 +46,8 @@ public class AlgorithmController {
             List<WSector> WSectors = sectorService.getAllSectorsByUser(user);
             List<WTrainer> WTrainers = guardService.getAllTrainersByUser(user);
             System.out.println("\n\n\n" + WSectors + "\n\n\n" + WTrainers);
+            model.addAttribute("sectors", WSectors);
             model.addAttribute("trainers", WTrainers);
-            model.addAttribute("guards", WTrainers);
             return "algorithm-dashboard";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error retrieving data: " + e.getMessage());
@@ -74,8 +74,8 @@ public class AlgorithmController {
 
             WTrainer[] WTrainerArray = null;
             WSector[] WSectorArray = null;
-            WTrainerArray = WTrainers.toArray(new WTrainer[0]);
-            WSectorArray = WSectors.toArray(new WSector[0]);
+            WTrainerArray = (WTrainer[])WTrainers.toArray(new WTrainer[0]);
+            WSectorArray = (WSector[])WSectors.toArray(new WSector[0]);
 
 
             int[][] result = Program.runGeneticAlgorithm(WTrainerArray, WSectorArray);

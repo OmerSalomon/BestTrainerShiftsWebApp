@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Guard Schedule by Sector</title>
+    <title>Trainer Schedule by Sector</title>
     <style>
         table, th, td {
             border: 1px solid black;
@@ -21,6 +21,8 @@
         }
     </style>
 </head>
+<h1>Sectors Schedule</h1>
+
 <body>
 <c:forEach var="sector" items="${sectors}" varStatus="sectorStatus">
     <h2>Sector: ${sector.name}</h2>
@@ -35,15 +37,15 @@
         </thead>
         <tbody>
             <%-- Loop over each day (assuming 7 days, 0-indexed) --%>
-        <c:forEach begin="0" end="6" var="day">
+        <c:forEach var="dayIndex" begin="0" end="6">
             <tr>
-                <td>Day ${day + 1}</td>
+                <td>${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dayIndex]}</td>
                     <%-- Loop over shifts for this day, 3 shifts per day --%>
                 <c:forEach begin="0" end="2" var="shift">
                     <td>
                             <%-- Collecting guards for each shift --%>
-                        <c:forEach var="guard" items="${trainers}" varStatus="trainerStatus">
-                            <c:if test="${scheduleMatrix[trainerStatus.index][day * 3 + shift] == sectorStatus.index}">
+                        <c:forEach var="trainer" items="${trainers}" varStatus="trainerStatus">
+                            <c:if test="${scheduleMatrix[trainerStatus.index][dayIndex * 3 + shift] == sectorStatus.index}">
                                 ${trainer.name}<br>
                             </c:if>
                         </c:forEach>
@@ -54,5 +56,39 @@
         </tbody>
     </table>
 </c:forEach>
+
+<h1>Trainers Schedule</h1>
+
+<c:forEach var="trainer" items="${trainers}" varStatus="trainerStatus">
+    <h2>Trainer: ${trainer.name}</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Day</th>
+            <th>Morning</th>
+            <th>Noon</th>
+            <th>Afternoon</th>
+        </tr>
+        </thead>
+        <tbody>
+            <%-- Loop over each day (assuming 7 days, 0-indexed) --%>
+        <c:forEach var="dayIndex" begin="0" end="6">
+            <tr>
+                <td>${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dayIndex]}</td>
+                    <%-- Loop over shifts for this day, 3 shifts per day --%>
+                <c:forEach begin="0" end="2" var="shift">
+                    <td>
+                            <%-- Collecting guards for each shift --%>
+                                <c:if test="${scheduleMatrix[trainerStatus.index][dayIndex * 3 + shift] != -1}">
+                                    ${"V"}<br>
+                                </c:if>
+                    </td>
+                </c:forEach>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</c:forEach>
+
 </body>
 </html>
