@@ -86,4 +86,9 @@ public class WSector {
     public void setEveningShiftSize(int eveningShiftSize) {
         this.eveningShiftSize = eveningShiftSize;
     }
+
+    @Override
+    public String toString() {
+        return name + " " + "{" + morningShiftSize + ", " + noonShiftSize + ", " + eveningShiftSize + "}";
+    }
 }

@@ -19,7 +19,7 @@ public class Program {
         int generationAmount = 1000; // Maximum number of generations
 
         // Run the genetic algorithm simulation
-        int[][] bestSchedule = ga.run(generationAmount, populationSize , 0.01, 0.1);
+        int[][] bestSchedule = ga.runAlgorithm(generationAmount, populationSize , 0.01, 0.1);
     }
 
     private static Sector[] createSectorsArr() {
@@ -71,7 +71,7 @@ public class Program {
 
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(trainers, sectors);
 
-        return  geneticAlgorithm.run(1000, 100, 0.01, 0.1);
+        return  geneticAlgorithm.runAlgorithm(1000, 100, 0.01, 0.1);
     }
 
     public static Sector[] convertSectorData(WSector[] wSectors) {

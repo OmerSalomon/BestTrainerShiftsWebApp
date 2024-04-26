@@ -1,9 +1,9 @@
 package entities.algorithm;
 
 public class Trainer {
-    private String name;
-    private boolean[] availability;
-    private boolean isManager;
+    private final String name;
+    private final boolean[] availability;
+    private final boolean isManager;
 
     public Trainer(String name, boolean[] availability, boolean isManager) {
         if (availability.length != Constants.SHIFTS_PER_WEEK)

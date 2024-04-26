@@ -36,16 +36,15 @@ public class SectorController {
             model.addAttribute("errorMessage", "Error retrieving sectors: " + e.getMessage());
             return "error";
         }
-
     }
+
 
     @PostMapping("/addSector")
     public String addSector(HttpSession session, Model model,
                             @RequestParam String name,
                             @RequestParam int morningShiftSize,
                             @RequestParam int noonShiftSize,
-                            @RequestParam int eveningShiftSize,
-                            @RequestParam(defaultValue = "false") boolean isManager) {
+                            @RequestParam int eveningShiftSize) {
         WUser user = getUserFromSession(session);
         if (user == null) {
             return "redirect:/login";

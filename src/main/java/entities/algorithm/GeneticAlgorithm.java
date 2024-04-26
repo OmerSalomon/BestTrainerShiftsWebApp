@@ -3,9 +3,9 @@ package entities.algorithm;
 import java.util.*;
 
 public class GeneticAlgorithm {
-    private Trainer[] trainers;
-    private Sector[] sectors;
-    private Random rnd;
+    private final Trainer[] trainers;
+    private final Sector[] sectors;
+    private final Random rnd;
 
     public GeneticAlgorithm(Trainer[] trainers, Sector[] sectors) {
         this.trainers = trainers;
@@ -13,7 +13,7 @@ public class GeneticAlgorithm {
         rnd = new Random();
     }
 
-    private ScheduleHolder[] getRandomFirstGeneration(int generationSize) {
+    private ScheduleHolder[] createRandomFirstGeneration(int generationSize) {
         ScheduleHolder[] randomGeneration = new ScheduleHolder[generationSize];
 
         for (int i = 0; i < randomGeneration.length; i++) {
@@ -205,14 +205,13 @@ public class GeneticAlgorithm {
         }
     }
 
-    public int[][] run(int generationAmount, int generationSize, double mutationRate, double elitismPercentage){
-        ScheduleHolder[] generation = getRandomFirstGeneration(generationSize);
+    public int[][] runAlgorithm(int generationAmount, int generationSize, double mutationRate, double elitismPercentage){
+        ScheduleHolder[] generation = createRandomFirstGeneration(generationSize);
         printScheduleBySector(getBestSchedule(generation).schedule);
 
         for (int i = 0; i < generationAmount; i++) {
             generation = createNextGeneration(generation, elitismPercentage, mutationRate);
             System.out.println("Generation number " + i + ", Average fitness: " + getAverageFitness(generation) + ", Best fitness: " + getBestSchedule(generation).fitness);
-
         }
 
         printScheduleBySector(getBestSchedule(generation).schedule);

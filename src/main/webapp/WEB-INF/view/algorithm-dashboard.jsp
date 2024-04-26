@@ -104,20 +104,26 @@
     <h2>Algorithm Dashboard</h2>
 
     <h3>Sectors</h3>
-    <div class="scrollable-list">
-        <table border="3">
-            <tr>
-                <th>Name</th>
-                <th>Required Number of Trainers</th>
-            </tr>
-            <c:forEach items="${sectors}" var="sector">
+    <form action="selectedSector" method="post">
+        <div class="scrollable-list">
+            <table border="3">
                 <tr>
-                    <td>${sector.name}</td>
-                    <td>${sector.requiredNumberOfTrainers}</td>
+                    <th>Name</th>
+                    <th>Morning Shift</th>
+                    <th>Noon Shift</th>
+                    <th>Evening Shift</th>
                 </tr>
-            </c:forEach>
-        </table>
-    </div>
+                <c:forEach items="${sectors}" var="sector">
+                    <tr>
+                        <td><input type="radio" name="selectedSectorId" value="${sector.id}" required></td>
+                        <td>${sector.name}</td>
+                        <td>${sector.morningShiftSize}</td>
+                        <td>${sector.noonShiftSize}</td>
+                        <td>${sector.eveningShiftSize}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
 
     <h3>Trainer List</h3>
     <div class="scrollable-list">
