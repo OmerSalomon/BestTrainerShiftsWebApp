@@ -6,7 +6,8 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);            display: flex;
+            background: linear-gradient(0.25turn, #2a5d78, #f4f9f9, #ff7e67); /* Updated colors for a cooler background */
+            display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -15,11 +16,11 @@
             color: #333;
         }
         .container {
-            background-color: #F6F6F6;
+            background-color: #ffffff; /* Consistent light background for the container */
             padding: 40px;
             border-radius: 5px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            height: 430px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1); /* Softer shadow */
+            height: auto; /* Adjusted for variable content height */
             width: 100%;
             max-width: 450px;
             font-size: 1.1rem;
@@ -43,14 +44,14 @@
             font-size: 1.1rem;
         }
         input[type="submit"] {
-            background-color: #4CAF50;
+            background-color: #ff7e67; /* Harmonizing with the gradient end color */
             color: white;
             cursor: pointer;
             border-radius: 4px;
             margin-bottom: 25px;
         }
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #e66a56; /* Darker shade on hover */
         }
         .signin-prompt {
             text-align: center;
@@ -58,11 +59,12 @@
             font-size: 0.9rem;
         }
         .signin-link {
-            color: #4CAF50;
+            color: #4a8da8; /* Link color adjusted to fit theme */
             text-decoration: none;
         }
         .signin-link:hover {
             text-decoration: underline;
+            color: #2a5d78; /* Darker shade for hover to maintain consistency */
         }
     </style>
 </head>

@@ -10,20 +10,24 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);            color: #333;
+            background: linear-gradient(0.25turn, #2a5d78, #f4f9f9, #ff7e67); /* Updated colors for a cooler background */
+            color: #333;
         }
 
         .container {
             max-width: 900px;
             margin: auto;
-            background-color: #F6F6F6;
+            background-color: #ffffff; /* Lighter background for the container */
             padding: 20px;
             border-radius: 5px;
-            box-shadow: 0 0 10px #cccccc;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Softer shadow */
         }
         h2, h3 {
-            color: #4CAF50;
+            background-color: #4a8da8; /* Smoother, less stark yellow */
+            color: #ffffff; /* White text for better contrast */
             text-align: center;
+            padding: 10px 0; /* Added padding for better spacing */
+            margin-top: 20px; /* Added space above headers */
         }
         form {
             padding: 20px;
@@ -39,24 +43,25 @@
             box-sizing: border-box;
         }
         input[type=submit] {
-            background-color: #4CAF50;
+            background-color: #ff7e67; /* Harmonizing with the gradient end color */
             color: white;
             cursor: pointer;
         }
         input[type=submit]:hover {
-            background-color: #45a049;
+            background-color: #e66a56; /* Darker shade on hover */
+            color: #ffffff;
         }
         .scrollable-list {
-            background-color: #f0f0f0;
+            background-color: #f9f9f9; /* Lighter background for readability */
             max-height: 500px;
             overflow-y: auto;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-shadow: inset 0 0 10px #cccccc;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05); /* Lighter inset shadow */
         }
         .section {
-            margin-bottom: 20px; /* Increased spacing between sections */
+            margin-bottom: 20px;
         }
         table {
             width: 100%;
@@ -66,18 +71,18 @@
             text-align: left;
             padding: 8px;
         }
-        tr:nth-child(even) {background-color: #f2f2f2;}
+        tr:nth-child(even) {background-color: #e0f4fd;} /* Lighter, less intrusive row color */
         .properties {
             display: flex;
             align-items: center;
-            margin-bottom: 20px; /* Adjust as needed */
+            margin-bottom: 20px;
         }
         .properties > * {
-            margin-right: 10px; /* Reduced spacing for closer alignment */
+            margin-right: 10px;
         }
         .bold {
             font-weight: bold;
-            margin-right: 10px; /* Ensure bold labels also have adjusted spacing */
+            margin-right: 10px;
         }
         .property-label {
             display: flex;
@@ -88,8 +93,8 @@
             text-align: center;
             margin-top: 20px;
         }
-
     </style>
+
 </head>
 <body>
 <div class="navbar">
@@ -113,7 +118,6 @@
                 </tr>
                 <c:forEach items="${sectors}" var="sector">
                     <tr>
-                        <td><input type="radio" name="selectedSectorId" value="${sector.id}" required></td>
                         <td>${sector.name}</td>
                         <td>${sector.morningShiftSize}</td>
                         <td>${sector.noonShiftSize}</td>

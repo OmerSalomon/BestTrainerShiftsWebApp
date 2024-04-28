@@ -5,19 +5,45 @@
     <meta charset="UTF-8">
     <title>Trainer Schedule by Sector</title>
     <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(0.25turn, #2a5d78, #f4f9f9, #ff7e67); /* Consistent gradient theme */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f0f0f0;
+        h1, h2 {
+            color: #4a8da8; /* Header color */
+            text-align: center;
         }
         table {
+            border-collapse: collapse;
+            width: 90%; /* Adjusted width for better layout */
             margin-bottom: 20px;
+            background-color: #ffffff; /* Light background for readability */
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Soft shadow for depth */
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+            color: #333;
+        }
+        th {
+            background-color: #ffe062; /* Bright header color */
+        }
+        tr:nth-child(even) {
+            background-color: #f4f9f9; /* Alternating row colors for better readability */
+        }
+        .container {
+            max-width: 1200px; /* Container to center content and manage size */
+            padding: 20px;
+            background-color: #f6f6f6; /* Light container background */
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); /* Enhanced shadow for depth */
         }
     </style>
 </head>

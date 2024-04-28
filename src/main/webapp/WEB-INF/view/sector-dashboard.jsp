@@ -10,19 +10,23 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);            color: #333;
+            background: linear-gradient(0.25turn, #2a5d78, #f4f9f9, #ff7e67); /* Consistent gradient theme */
+            color: #333;
         }
         .container {
             max-width: 900px;
             margin: auto;
-            background-color: #F6F6F6;
+            background-color: #ffffff; /* Light background for container */
             padding: 20px;
             border-radius: 5px;
-            box-shadow: 0 0 10px #cccccc;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Softer shadow */
         }
         h2, h3 {
-            color: #4CAF50;
+            background-color: #4a8da8; /* Consistent header color */
+            color: #ffffff; /* White text for better contrast */
             text-align: center;
+            padding: 10px; /* Enhanced padding */
+            border-radius: 5px; /* Rounded corners for headers */
         }
         form {
             padding: 20px;
@@ -38,24 +42,27 @@
             box-sizing: border-box;
         }
         input[type=submit] {
-            background-color: #4CAF50;
+            background-color: #ff7e67; /* Button color consistent with theme */
             color: white;
             cursor: pointer;
+            width: auto; /* Auto width for buttons */
+
         }
         input[type=submit]:hover {
-            background-color: #45a049;
+            background-color: #e66a56; /* Darker shade on hover */
+            color: #ffffff;
         }
         .scrollable-list {
-            background-color: #f0f0f0;
+            background-color: #f9f9f9; /* Lighter shade for better readability */
             max-height: 500px;
             overflow-y: auto;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-shadow: inset 0 0 10px #cccccc;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05); /* Lighter inset shadow */
         }
         .section {
-            margin-bottom: 20px; /* Increased spacing between sections */
+            margin-bottom: 20px;
         }
         table {
             width: 100%;
@@ -64,19 +71,19 @@
         th, td {
             text-align: left;
             padding: 8px;
+            border-radius: 3px; /* Slight rounding on table cells */
         }
-        tr:nth-child(even) {background-color: #f2f2f2;}
+        tr:nth-child(even) {background-color: #e0f4fd;} /* Consistent row coloring */
         .properties {
             display: flex;
             align-items: center;
-            margin-bottom: 20px; /* Adjust as needed */
+            margin-bottom: 20px;
         }
         .properties > * {
-            margin-right: 10px; /* Reduced spacing for closer alignment */
+            margin-right: 10px;
         }
         .bold {
             font-weight: bold;
-            margin-right: 10px; /* Ensure bold labels also have adjusted spacing */
         }
         .property-label {
             display: flex;
@@ -87,12 +94,8 @@
             text-align: center;
             margin-top: 20px;
         }
-
-
-
-
-
     </style>
+
 </head>
 <body>
 

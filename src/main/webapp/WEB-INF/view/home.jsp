@@ -10,7 +10,8 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);            color: #333;
+            background: linear-gradient(0.25turn, #2a5d78, #f4f9f9, #ff7e67); /* Updated colors for a cooler background */
+            color: #333;
         }
         .main-content {
             padding: 40px 20px;
@@ -26,8 +27,7 @@
             margin-bottom: 30px;
         }
         .dashboard-link {
-            background-color: #fff;
-            color: #4CAF50;
+            background-color: #ffe062; /* Maintained bright link color for visibility */
             padding: 12px 20px;
             margin: 10px;
             border: none;
@@ -39,11 +39,12 @@
             box-shadow: 0 4px 14px 0 rgba(0,0,0,.1);
         }
         .dashboard-link:hover {
-            background-color: #4CAF50;
+            background-color: #ff7e67; /* Harmonizing with the gradient end color */
             color: #fff;
             transform: translateY(-2px);
         }
     </style>
+
 </head>
 <body>
 

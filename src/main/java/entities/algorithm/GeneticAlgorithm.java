@@ -1,11 +1,12 @@
 package entities.algorithm;
 
+
 import java.util.*;
 
 public class GeneticAlgorithm {
-    private final Trainer[] trainers;
-    private final Sector[] sectors;
-    private final Random rnd;
+    private Trainer[] trainers;
+    private Sector[] sectors;
+    private Random rnd;
 
     public GeneticAlgorithm(Trainer[] trainers, Sector[] sectors) {
         this.trainers = trainers;
@@ -13,141 +14,20 @@ public class GeneticAlgorithm {
         rnd = new Random();
     }
 
-    private ScheduleHolder[] createRandomFirstGeneration(int generationSize) {
-        ScheduleHolder[] randomGeneration = new ScheduleHolder[generationSize];
+    private Schedule[] createRandomFirstGeneration(int generationSize) {
+        Schedule[] randomGeneration = new Schedule[generationSize];
 
         for (int i = 0; i < randomGeneration.length; i++) {
-            int[][] randomSchedule = createRandomSchedule();
-            double scheduleFitness = calculateFitnessForSchedule(randomSchedule);
-            randomGeneration[i] = new ScheduleHolder(randomSchedule, scheduleFitness);
+            randomGeneration[i] = new Schedule(trainers, sectors);
         }
 
         return randomGeneration;
     }
 
+    private Schedule[] createNextGeneration(Schedule[] currentGeneration, double elitismPercentage, double mutationRate) {
+        Schedule[] nextGeneration = new Schedule[currentGeneration.length];
 
-
-    private double calculatePenaltiesForTrainerRestingTime(int[] trainerWeeklySchedule) {
-        double trainerRestPenalties = 0;
-
-        for (int i = 0; i < trainerWeeklySchedule.length; i++) {
-            int nextShiftIndex = (i + 1) % trainerWeeklySchedule.length;
-            int nextTwoShiftIndex = (i + 2) % trainerWeeklySchedule.length;
-
-            boolean isWorkingNextShift = trainerWeeklySchedule[nextShiftIndex] != -1;
-            boolean isWorkingNextTwoShifts = trainerWeeklySchedule[nextTwoShiftIndex] != -1;
-
-            int shiftTypeNum = i % 3;
-
-            if (shiftTypeNum == 0 && isWorkingNextShift)
-                trainerRestPenalties += Constants.NOT_ENOUGH_REST_PENALTY;
-
-            if (shiftTypeNum == 1 && isWorkingNextShift)
-                trainerRestPenalties += Constants.NOT_ENOUGH_REST_PENALTY;
-
-            if (shiftTypeNum == 2 && (isWorkingNextShift || isWorkingNextTwoShifts))
-                trainerRestPenalties += Constants.NOT_ENOUGH_REST_PENALTY;
-        }
-
-        return trainerRestPenalties * trainerRestPenalties / 10000;
-    }
-
-    private double calculateFitnessForSchedule(int[][] schedule){
-        double totalPenalties = 0;
-
-        for (int shiftIterator = 0; shiftIterator < Constants.SHIFTS_PER_WEEK; shiftIterator++) {
-            int[] shift = new int[trainers.length];
-            for (int j = 0; j < trainers.length; j++) {
-                shift[j] = schedule[j][shiftIterator];
-            }
-
-            totalPenalties += calculatePenaltiesForShift(shift, shiftIterator);
-        }
-
-        for (int i = 0; i < schedule.length; i++) {
-            totalPenalties += calculatePenaltiesForTrainerRestingTime(schedule[i]);
-        }
-
-        return 1 / (1 + totalPenalties);
-    }
-
-
-    private int[][] createRandomSchedule() {
-        int[][] firstGeneration = new int[trainers.length][Constants.SHIFTS_PER_WEEK];
-
-        for (int[] ints : firstGeneration) {
-            Arrays.fill(ints, -1);
-        }
-
-        double probability = rnd.nextDouble();
-
-        for (int i = 0; i < firstGeneration.length; i++) {
-            for (int j = 0; j < firstGeneration[i].length; j++) {
-                if (trainers[i].isAvailable(j) && rnd.nextDouble() < probability)
-                    firstGeneration[i][j] = rnd.nextInt(sectors.length);
-            }
-        }
-
-        return firstGeneration;
-    }
-
-    private double calculatePenaltiesForShift(int[] shift, int shiftNumber) {
-        double shiftPenalties = 0;
-        int shiftType = shiftNumber % Constants.SHIFT_PER_DAY; // morning = 0, noon = 1, evening = 2
-
-        boolean hasManager = false;
-
-        for (int sectorNum = 0; sectorNum < sectors.length; sectorNum++) {
-            Sector sector = sectors[sectorNum];
-
-            int numberOfTrainersInSectorShift = 0;
-
-            for (int i = 0; i < shift.length; i++) {
-                if (shift[i] == sectorNum) {
-                    Trainer trainer = trainers[i];
-                    hasManager |= trainer.isManager();
-                    numberOfTrainersInSectorShift++;
-                }
-            }
-
-            int shiftSize = sector.getShiftsSize(shiftType);
-
-            if (numberOfTrainersInSectorShift < shiftSize)
-                shiftPenalties += Constants.TRAINER_UNDER_BOOK_PENALTY;
-
-            if (numberOfTrainersInSectorShift > shiftSize)
-                shiftPenalties += Constants.TRAINER_OVER_BOOK_PENALTY;
-            shiftPenalties += (Math.abs(sector.getShiftsSize(shiftType) - numberOfTrainersInSectorShift)) * Constants.TRAINER_UNDER_BOOK_PENALTY;
-        }
-
-        if (!hasManager)
-            shiftPenalties += Constants.SHIFT_WITHOUT_MANAGER_PENALTY;
-
-        return shiftPenalties * shiftPenalties / 10000;
-    }
-
-    private int[][] crossover(int[][] parentA, int[][] parentB) {
-        int[][] child = new int[trainers.length][Constants.SHIFTS_PER_WEEK];
-
-        double prob = rnd.nextDouble();
-
-        for (int i = 0; i < child.length; i++) {
-            for (int j = 0; j < child[i].length; j++) {
-
-                if (rnd.nextDouble() < prob)
-                    child[i][j] = parentA[i][j];
-                else
-                    child[i][j] = parentB[i][j];
-            }
-        }
-
-        return child;
-    }
-
-    private ScheduleHolder[] createNextGeneration(ScheduleHolder[] currentGeneration, double elitismPercentage, double mutationRate) {
-        ScheduleHolder[] nextGeneration = new ScheduleHolder[currentGeneration.length];
-
-        Arrays.sort(currentGeneration, Comparator.comparingDouble((ScheduleHolder holder) -> holder.fitness).reversed());
+        Arrays.sort(currentGeneration, Comparator.comparingDouble(Schedule::getFitness).reversed());
 
         int i = 0;
         for (; i < currentGeneration.length * elitismPercentage; i++) {
@@ -155,28 +35,24 @@ public class GeneticAlgorithm {
         }
 
         for (; i < nextGeneration.length; i++) {
-            ScheduleHolder parentA = selectParents(currentGeneration);
-            ScheduleHolder parentB = null;
+            Schedule parentA = selectParents(currentGeneration);
+            Schedule parentB = null;
             while (parentA != parentB)
                 parentB = selectParents(currentGeneration);
 
-            int[][] childSchedule = crossover(parentA.schedule, parentB.schedule);
-            mutateSchedule(childSchedule, mutationRate);
-
-            double childFitness = calculateFitnessForSchedule(childSchedule);
-            ScheduleHolder child = new ScheduleHolder(childSchedule, childFitness);
-
+            Schedule child = new Schedule(parentA, parentB);
+            child.mutateSchedule(mutationRate);
             nextGeneration[i] = child;
         }
 
         return nextGeneration;
     }
 
-    private ScheduleHolder selectParents(ScheduleHolder[] scheduleHolders) {
+    private Schedule selectParents(Schedule[] scheduleHolders) {
         Random random = new Random();
         int tournamentSize = 3;
 
-        ScheduleHolder[] tournament = new ScheduleHolder[tournamentSize];
+        Schedule[] tournament = new Schedule[tournamentSize];
         for (int i = 0; i < tournamentSize; i++) {
             int randomIndex = random.nextInt(scheduleHolders.length);
             tournament[i] = scheduleHolders[randomIndex];
@@ -185,44 +61,34 @@ public class GeneticAlgorithm {
         return getBestSchedule(tournament);
     }
 
-    private ScheduleHolder getBestSchedule(ScheduleHolder[] scheduleHolders) {
-        ScheduleHolder bestScheduleHolder = scheduleHolders[0];
+    private Schedule getBestSchedule(Schedule[] schedules) {
+        Schedule bestSchedule = schedules[0];
 
-        for (ScheduleHolder scheduleHolder : scheduleHolders) {
-            if (scheduleHolder.fitness > bestScheduleHolder.fitness)
-                bestScheduleHolder = scheduleHolder;
+        for (Schedule schedule : schedules) {
+            if (schedule.getFitness() > bestSchedule.getFitness())
+                bestSchedule = schedule;
         }
 
-        return bestScheduleHolder;
-    }
-
-    private void mutateSchedule(int[][] schedule, double mutationRate) {
-        for (int i = 0; i < schedule.length; i++) {
-            for (int j = 0; j < Constants.SHIFTS_PER_WEEK; j++) {
-                if (trainers[i].isAvailable(j) && rnd.nextDouble() < mutationRate)
-                    schedule[i][j] = rnd.nextInt(sectors.length + 1) - 1;
-            }
-        }
+        return bestSchedule;
     }
 
     public int[][] runAlgorithm(int generationAmount, int generationSize, double mutationRate, double elitismPercentage){
-        ScheduleHolder[] generation = createRandomFirstGeneration(generationSize);
-        printScheduleBySector(getBestSchedule(generation).schedule);
+        Schedule[] generation = createRandomFirstGeneration(generationSize);
+        printScheduleBySector(getBestSchedule(generation).getMatrix());
 
         for (int i = 0; i < generationAmount; i++) {
             generation = createNextGeneration(generation, elitismPercentage, mutationRate);
-            System.out.println("Generation number " + i + ", Average fitness: " + getAverageFitness(generation) + ", Best fitness: " + getBestSchedule(generation).fitness);
         }
 
-        printScheduleBySector(getBestSchedule(generation).schedule);
-        return getBestSchedule(generation).schedule;
+        printScheduleBySector(getBestSchedule(generation).getMatrix());
+        return getBestSchedule(generation).getMatrix();
     }
 
-    private double getAverageFitness(ScheduleHolder[] scheduleHolders) {
+    private double getAverageFitness(Schedule[] scheduleHolders) {
         double fitnessSum = 0;
 
-        for (ScheduleHolder scheduleHolder : scheduleHolders) {
-            fitnessSum += scheduleHolder.fitness;
+        for (Schedule schedule : scheduleHolders) {
+            fitnessSum += schedule.getFitness();
         }
 
         return fitnessSum / scheduleHolders.length;

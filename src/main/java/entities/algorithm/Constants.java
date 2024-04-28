@@ -7,5 +7,5 @@ public class Constants {
     public static final double SHIFT_WITHOUT_MANAGER_PENALTY = 5;
     public static final double TRAINER_UNDER_BOOK_PENALTY = 5;
     public static final double TRAINER_OVER_BOOK_PENALTY = 20;
-    public static final double NOT_ENOUGH_REST_PENALTY = 1;
+    public static final double NOT_ENOUGH_REST_PENALTY = 4;
 }

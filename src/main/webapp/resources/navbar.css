@@ -2,9 +2,10 @@
 
 /* Base styling for the navbar */
 .navbar {
-    background-color: #7289da; /* Green background */
+    background-color: #4a8da8; /* Updated to a soothing blue to match the overall theme */
     overflow: hidden; /* Ensures the content fits within the navbar */
-    font-family: Arial, sans-serif; /* Font styling */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Updated font to match the rest of the application */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Soft shadow for depth */
 }
 
 /* Links inside the navbar */
@@ -15,17 +16,18 @@
     padding: 14px 16px; /* Padding inside the link elements */
     text-decoration: none; /* Removes underline from links */
     font-size: 17px; /* Font size */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
 }
 
 /* Changes background color on hover */
-.navbar a:hover {
-    background-color: #ddd; /* Light grey background */
-    color: black; /* Text color changes to black */
+.navbar a:hover, .navbar a:focus {
+    background-color: #e66a56; /* Harmonizing with the gradient end color for hover */
+    color: white; /* Maintains text color consistency */
 }
 
 /* Active/current link */
 .navbar a.active {
-    background-color: #666; /* Darker shade for the active link */
+    background-color: #ff7e67; /* A brighter, engaging color for the active link */
     color: white;
 }
 
@@ -34,5 +36,7 @@
     .navbar a {
         float: none; /* Stack links vertically on small screens */
         display: block; /* Display links as blocks */
+        text-align: left; /* Align text to the left on smaller screens */
+        padding-left: 25px; /* Increased padding for better touch accessibility */
     }
 }
