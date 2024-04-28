@@ -91,13 +91,4 @@ public class AlgorithmController {
             return "error";
         }
     }
-
-    /**
-     * Runs the genetic algorithm.
-     * @param guards The guards
-     * @param sectors The sectors
-     * @return The best schedule
-     */
-
-
 }
