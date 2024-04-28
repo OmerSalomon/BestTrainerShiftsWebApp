@@ -10,8 +10,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #6e8efb, #a777e3);
-            color: #333;
+            background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);            color: #333;
         }
 
         .container {

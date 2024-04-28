@@ -79,9 +79,9 @@
                 <c:forEach begin="0" end="2" var="shift">
                     <td>
                             <%-- Collecting guards for each shift --%>
-                                <c:if test="${scheduleMatrix[trainerStatus.index][dayIndex * 3 + shift] != -1}">
-                                    ${"V"}<br>
-                                </c:if>
+                        <c:if test="${scheduleMatrix[trainerStatus.index][dayIndex * 3 + shift] != -1}">
+                            ${"V"}<br>
+                        </c:if>
                     </td>
                 </c:forEach>
             </tr>
