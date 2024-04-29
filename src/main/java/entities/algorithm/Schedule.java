@@ -15,6 +15,13 @@ public class Schedule {
     private final double fitness;
     private final Random rnd;
 
+    /**
+     * Constructs a new Schedule object using arrays of trainers and sectors. Initializes the schedule matrix randomly
+     * based on trainer availability and a random probability for assignment.
+     *
+     * @param trainers Array of {@link Trainer} objects representing the trainers.
+     * @param sectors Array of {@link Sector} objects representing the sectors.
+     */
     public Schedule(Trainer[] trainers, Sector[] sectors) {
         rnd = new Random();
         this.trainers = trainers;
@@ -39,6 +46,14 @@ public class Schedule {
         fitness = calculateFitnessForSchedule(matrix);
     }
 
+
+    /**
+     * Creates a new schedule by combining features from two parent schedules.
+     * This is typically used in genetic algorithms to create new solutions from existing ones.
+     *
+     * @param a First parent schedule.
+     * @param b Second parent schedule.
+     */
     public Schedule(Schedule a, Schedule b) {
         rnd = new Random();
         this.trainers = a.getTrainers();
@@ -79,6 +94,18 @@ public class Schedule {
         return sectors;
     }
 
+
+    /**
+     * Calculates penalties for a specific shift based on various constraints like the required number of trainers
+     * and the presence of a manager. Penalties are imposed for underbooking and overbooking of trainers,
+     * and an additional penalty is added if no manager is present during the shift.
+     *
+     * @param shift An array representing the sector assignments for each trainer during this shift. Each element in the
+     *              array corresponds to a trainer, where the value is the sector number the trainer is assigned to,
+     *              or -1 if the trainer is not assigned to any sector.
+     * @param shiftNumber The index of the shift within the week, used to determine the type of shift (morning, noon, evening).
+     * @return The total penalty calculated for this shift, adjusted by a factor for normalization.
+     */
     private double calculatePenaltiesForShift(int[] shift, int shiftNumber) {
         double shiftPenalties = 0;
         int shiftType = shiftNumber % Constants.SHIFT_PER_DAY; // morning = 0, noon = 1, evening = 2
@@ -114,6 +141,13 @@ public class Schedule {
         return shiftPenalties * shiftPenalties / 10000;
     }
 
+    /**
+     * Calculates the overall fitness of the schedule based on penalty conditions such as inadequate rest between shifts
+     * and inadequate or excessive number of trainers per shift.
+     *
+     * @param schedule The schedule matrix where rows represent trainers and columns represent shifts.
+     * @return The calculated fitness value as a double.
+     */
     private double calculateFitnessForSchedule(int[][] schedule){
         double totalPenalties = 0;
 
@@ -158,6 +192,12 @@ public class Schedule {
         return trainerRestPenalties * trainerRestPenalties / 10000;
     }
 
+    /**
+     * Mutates the schedule by randomly altering the shift assignments at a specified mutation rate. This is typically used
+     * in genetic algorithms to introduce variation.
+     *
+     * @param mutationRate The probability of a shift being mutated.
+     */
     public void mutateSchedule(double mutationRate) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < Constants.SHIFTS_PER_WEEK; j++) {

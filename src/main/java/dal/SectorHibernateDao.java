@@ -9,11 +9,19 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Implementation of SectorDao interface using Hibernate for data access.
+ * This class provides methods to interact with the database to perform CRUD operations on sectors.
+ */
 @Repository
 public class SectorHibernateDao implements SectorDao {
 
     private SessionFactory factory;
 
+    /**
+     * Constructor to initialize the Hibernate SessionFactory.
+     * It configures the SessionFactory using the hibernate.cfg.xml file and adds the WSector class as an annotated class.
+     */
     public SectorHibernateDao() {
         // Configure SessionFactory
         factory = new Configuration()
@@ -21,6 +29,13 @@ public class SectorHibernateDao implements SectorDao {
                 .addAnnotatedClass(WSector.class)
                 .buildSessionFactory();
     }
+
+    /**
+     * Retrieves all sectors associated with a specific user from the database.
+     *
+     * @param user The user whose sectors are to be retrieved.
+     * @return A list of sectors associated with the given user.
+     */
 
     @Override
     public List<WSector> getAllSectorsByUser(WUser user) {
@@ -51,6 +66,11 @@ public class SectorHibernateDao implements SectorDao {
         return sectors;
     }
 
+    /**
+     * Saves a sector to the database.
+     *
+     * @param sector The sector to be saved.
+     */
     @Override
     public void save(WSector sector) {
         Session session = factory.openSession();
@@ -68,11 +88,22 @@ public class SectorHibernateDao implements SectorDao {
         }
     }
 
+    /**
+     * Updates a sector identified by its ID with new sector information in the database.
+     *
+     * @param sectorId The ID of the sector to be updated.
+     * @param sector   The updated sector information.
+     */
     @Override
     public void updateSectorBySectorID(int sectorId, WSector sector) {
         save(sector); // Since saveOrUpdate is used in save(), it can also handle updates.
     }
 
+    /**
+     * Deletes a sector identified by its ID from the database.
+     *
+     * @param sectorId The ID of the sector to be deleted.
+     */
     @Override
     public void deleteSectorBySectorID(int sectorId) {
         Session session = factory.openSession();
@@ -90,6 +121,12 @@ public class SectorHibernateDao implements SectorDao {
         }
     }
 
+    /**
+     * Retrieves a sector by its ID from the database.
+     *
+     * @param sectorId The ID of the sector to be retrieved.
+     * @return The sector associated with the given ID.
+     */
     @Override
     public WSector getSectorBySectorID(int sectorId) {
         Session session = factory.openSession();
@@ -104,6 +141,9 @@ public class SectorHibernateDao implements SectorDao {
         return sector;
     }
 
+    /**
+     * Closes the Hibernate SessionFactory when the application stops.
+     */
     // Ensure you close the factory when the application stops
     public void close() {
         if (factory != null) {
