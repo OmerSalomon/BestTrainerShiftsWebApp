@@ -93,7 +93,7 @@
             <th>Day</th>
             <th>Morning</th>
             <th>Noon</th>
-            <th>Afternoon</th>
+            <th>Evening</th>
         </tr>
         </thead>
         <tbody>
