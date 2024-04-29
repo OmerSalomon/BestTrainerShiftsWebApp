@@ -19,6 +19,9 @@
             color: #4a8da8; /* Header color */
             text-align: center;
         }
+        .manager { /* Style for manager names */
+            color: red;
+        }
         table {
             border-collapse: collapse;
             width: 90%; /* Adjusted width for better layout */
@@ -45,15 +48,12 @@
             border-radius: 5px;
             box-shadow: 0 0 15px rgba(0,0,0,0.2); /* Enhanced shadow for depth */
         }
-        .manager { /* Style for manager names */
-            color: red;
-        }
     </style>
 </head>
 <body>
 <h1>Sectors Schedule</h1>
 <c:forEach var="sector" items="${sectors}" varStatus="sectorStatus">
-    <h2>Sector: ${sector.name}</h2>
+    <h2>${sector.name}</h2>
     <table>
         <thead>
         <tr>
@@ -71,7 +71,6 @@
                     <td>
                         <c:forEach var="trainer" items="${trainers}" varStatus="trainerStatus">
                             <c:if test="${scheduleMatrix[trainerStatus.index][dayIndex * 3 + shift] == sectorStatus.index}">
-                                <%-- Check if the trainer is a manager and apply red color --%>
                                 <c:choose>
                                     <c:when test="${trainer.isManager}">
                                         <span class="manager">${trainer.name}</span><br>
@@ -80,7 +79,6 @@
                                         ${trainer.name}<br>
                                     </c:otherwise>
                                 </c:choose>
-
                             </c:if>
                         </c:forEach>
                     </td>
@@ -93,7 +91,7 @@
 
 <h1>Trainers Schedule</h1>
 <c:forEach var="trainer" items="${trainers}" varStatus="trainerStatus">
-    <h2>Trainer: ${trainer.name}</h2>
+    <h2 class="${trainer.isManager ? 'manager' : ''}">Trainer: ${trainer.name}</h2>
     <table>
         <thead>
         <tr>
