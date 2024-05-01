@@ -23,7 +23,7 @@ public class Schedule {
         this.trainers = trainers;
         this.sectors = sectors;
 
-        int[][] randomSchedule = new int[sectors.length][Constants.SHIFTS_PER_WEEK];
+        int[][] randomSchedule = new int[trainers.length][Constants.SHIFTS_PER_WEEK];
 
         for (int[] ints : randomSchedule) {
             Arrays.fill(ints, -1);
@@ -33,14 +33,14 @@ public class Schedule {
 
         for (int shiftCounter = 0; shiftCounter < Constants.SHIFTS_PER_WEEK; shiftCounter++) {
             int[] sectorGuardCount = new int[sectors.length];
-            int shiftType = shiftCounter % Constants.SHIFT_PER_DAY;
+            int shiftType = shiftCounter % Constants.SHIFTS_PER_DAY;
 
-            for (int guardCounter = 0; guardCounter < sectors.length; guardCounter++) {
-                if (trainers[guardCounter].isAvailable(shiftCounter) && rnd.nextDouble() < probability) {
+            for (int trainersCounter = 0; trainersCounter < trainers.length; trainersCounter++) {
+                if (trainers[trainersCounter].isAvailable(shiftCounter) && rnd.nextDouble() < probability) {
                     int sectorNum = rnd.nextInt(sectors.length);
 
                     if (sectorGuardCount[sectorNum] < sectors[sectorNum].getShiftsSize(shiftType)) {
-                        randomSchedule[guardCounter][shiftCounter] = sectorNum;
+                        randomSchedule[trainersCounter][shiftCounter] = sectorNum;
                         sectorGuardCount[sectorNum]++;
                     }
 
@@ -75,7 +75,7 @@ public class Schedule {
 
         for (int shiftCounter = 0; shiftCounter < Constants.SHIFTS_PER_WEEK; shiftCounter++) {
             int[] sectorTrainerCount = new int[sectors.length];
-            int shiftType = shiftCounter % Constants.SHIFT_PER_DAY;
+            int shiftType = shiftCounter % Constants.SHIFTS_PER_DAY;
             for (int trainerCounter = 0; trainerCounter < trainers.length; trainerCounter++) {
 
                 int childSectorNum;
@@ -126,7 +126,7 @@ public class Schedule {
      */
     private double calculatePenaltiesForShift(int[] shift, int shiftNumber) {
         double shiftPenalties = 0;
-        int shiftType = shiftNumber % Constants.SHIFT_PER_DAY; // morning = 0, noon = 1, evening = 2
+        int shiftType = shiftNumber % Constants.SHIFTS_PER_DAY; // morning = 0, noon = 1, evening = 2
 
         boolean hasManager = false;
 
@@ -148,8 +148,6 @@ public class Schedule {
             if (numberOfTrainersInSectorShift < shiftSize)
                 shiftPenalties += Constants.TRAINER_UNDER_BOOK_PENALTY;
 
-            if (numberOfTrainersInSectorShift > shiftSize)
-                shiftPenalties += Constants.TRAINER_OVER_BOOK_PENALTY;
             shiftPenalties += (Math.abs(sector.getShiftsSize(shiftType) - numberOfTrainersInSectorShift)) * Constants.TRAINER_UNDER_BOOK_PENALTY;
         }
 
@@ -171,8 +169,8 @@ public class Schedule {
 
         for (int shiftIterator = 0; shiftIterator < Constants.SHIFTS_PER_WEEK; shiftIterator++) {
             int[] shift = new int[trainers.length];
-            for (int j = 0; j < trainers.length; j++) {
-                shift[j] = schedule[j][shiftIterator];
+            for (int trainerIterator = 0; trainerIterator < trainers.length; trainerIterator++) {
+                shift[trainerIterator] = schedule[trainerIterator][shiftIterator];
             }
 
             totalPenalties += calculatePenaltiesForShift(shift, shiftIterator);
@@ -220,7 +218,7 @@ public class Schedule {
         for (int shiftCounter = 0; shiftCounter < Constants.SHIFTS_PER_WEEK; shiftCounter++) {
 
             int[] sectorGuardCount = new int[sectors.length];
-            int shiftType = shiftCounter % Constants.SHIFT_PER_DAY;
+            int shiftType = shiftCounter % Constants.SHIFTS_PER_DAY;
 
             for (int guardCounter = 0; guardCounter < sectors.length; guardCounter++) {
                 int sectorNum = matrix[guardCounter][shiftCounter];

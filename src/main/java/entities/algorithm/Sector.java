@@ -16,7 +16,7 @@ public class Sector {
      * @throws IllegalArgumentException if the length of shiftsSize does not match the number of shifts per day defined in Constants.
      */
     public Sector(String name, int[] shiftsSize) {
-        if (shiftsSize.length != Constants.SHIFT_PER_DAY)
+        if (shiftsSize.length != Constants.SHIFTS_PER_DAY)
             throw new IllegalArgumentException("ShiftsSize's length must be equal to the number of shifts in a day");
 
         this.name = name;
