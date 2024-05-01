@@ -1,9 +1,5 @@
 package entities.algorithm;
 
-import entities.algorithm.Constants;
-import entities.algorithm.Sector;
-import entities.algorithm.Trainer;
-
 import java.util.Arrays;
 import java.util.Random;
 
@@ -27,7 +23,7 @@ public class Schedule {
         this.trainers = trainers;
         this.sectors = sectors;
 
-        int[][] randomSchedule = new int[trainers.length][Constants.SHIFTS_PER_WEEK];
+        int[][] randomSchedule = new int[sectors.length][Constants.SHIFTS_PER_WEEK];
 
         for (int[] ints : randomSchedule) {
             Arrays.fill(ints, -1);
@@ -35,10 +31,20 @@ public class Schedule {
 
         double probability = rnd.nextDouble();
 
-        for (int i = 0; i < randomSchedule.length; i++) {
-            for (int j = 0; j < randomSchedule[i].length; j++) {
-                if (trainers[i].isAvailable(j) && rnd.nextDouble() < probability)
-                    randomSchedule[i][j] = rnd.nextInt(sectors.length);
+        for (int shiftCounter = 0; shiftCounter < Constants.SHIFTS_PER_WEEK; shiftCounter++) {
+            int[] sectorGuardCount = new int[sectors.length];
+            int shiftType = shiftCounter % Constants.SHIFT_PER_DAY;
+
+            for (int guardCounter = 0; guardCounter < sectors.length; guardCounter++) {
+                if (trainers[guardCounter].isAvailable(shiftCounter) && rnd.nextDouble() < probability) {
+                    int sectorNum = rnd.nextInt(sectors.length);
+
+                    if (sectorGuardCount[sectorNum] < sectors[sectorNum].getShiftsSize(shiftType)) {
+                        randomSchedule[guardCounter][shiftCounter] = sectorNum;
+                        sectorGuardCount[sectorNum]++;
+                    }
+
+                }
             }
         }
 
@@ -59,23 +65,35 @@ public class Schedule {
         this.trainers = a.getTrainers();
         this.sectors = a.getSectors();
 
-        int[][] child = new int[a.getTrainers().length][Constants.SHIFTS_PER_WEEK];
+        int[][] child = new int[trainers.length][Constants.SHIFTS_PER_WEEK];
+
+        for (int[] ints : child) {
+            Arrays.fill(ints, -1);
+        }
 
         double prob = rnd.nextDouble();
 
-        for (int i = 0; i < child.length; i++) {
-            for (int j = 0; j < child[i].length; j++) {
+        for (int shiftCounter = 0; shiftCounter < Constants.SHIFTS_PER_WEEK; shiftCounter++) {
+            int[] sectorTrainerCount = new int[sectors.length];
+            int shiftType = shiftCounter % Constants.SHIFT_PER_DAY;
+            for (int trainerCounter = 0; trainerCounter < trainers.length; trainerCounter++) {
 
-                if (rnd.nextDouble() < prob)
-                    child[i][j] = a.getMatrix()[i][j];
+                int childSectorNum;
+
+                if (prob > rnd.nextDouble())
+                    childSectorNum = a.getMatrix()[trainerCounter][shiftCounter];
                 else
-                    child[i][j] = b.getMatrix()[i][j];
+                    childSectorNum = b.getMatrix()[trainerCounter][shiftCounter];
+
+                if (childSectorNum != -1 && sectorTrainerCount[childSectorNum] < sectors[childSectorNum].getShiftsSize(shiftType)) {
+                    child[trainerCounter][shiftCounter] = childSectorNum;
+                    sectorTrainerCount[childSectorNum]++;
+                }
             }
         }
 
         matrix = child;
         fitness = calculateFitnessForSchedule(matrix);
-
     }
 
     public int[][] getMatrix() {
@@ -199,10 +217,31 @@ public class Schedule {
      * @param mutationRate The probability of a shift being mutated.
      */
     public void mutateSchedule(double mutationRate) {
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < Constants.SHIFTS_PER_WEEK; j++) {
-                if (trainers[i].isAvailable(j) && rnd.nextDouble() < mutationRate)
-                    matrix[i][j] = rnd.nextInt(sectors.length + 1) - 1;
+        for (int shiftCounter = 0; shiftCounter < Constants.SHIFTS_PER_WEEK; shiftCounter++) {
+
+            int[] sectorGuardCount = new int[sectors.length];
+            int shiftType = shiftCounter % Constants.SHIFT_PER_DAY;
+
+            for (int guardCounter = 0; guardCounter < sectors.length; guardCounter++) {
+                int sectorNum = matrix[guardCounter][shiftCounter];
+
+                if (sectorNum != -1)
+                    sectorGuardCount[sectorNum]++;
+            }
+
+            for (int guardCounter = 0; guardCounter < sectors.length; guardCounter++) {
+
+                int oldSectorNum = matrix[guardCounter][shiftCounter];
+                if (oldSectorNum != -1 && mutationRate > rnd.nextDouble()) {
+                    int newSectorNum = rnd.nextInt(sectors.length);
+
+                    if (sectorGuardCount[newSectorNum] < sectors[newSectorNum].getShiftsSize(shiftType)) {
+                        matrix[guardCounter][shiftCounter] = newSectorNum;
+                        sectorGuardCount[oldSectorNum]--;
+                        sectorGuardCount[newSectorNum]++;
+                    }
+
+                }
             }
         }
     }
