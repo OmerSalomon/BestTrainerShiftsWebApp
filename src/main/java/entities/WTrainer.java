@@ -120,6 +120,21 @@ public class WTrainer {
     }
 
     /**
+     * Parses the availability string into a boolean array.
+     * '1' in the string indicates availability (true), and '0' indicates non-availability (false).
+     *
+     * @return a boolean array representing the availability
+     */
+    public boolean[] getAvailabilityArray() {
+        boolean[] availabilityArray = new boolean[availabilityString.length()];
+        for (int i = 0; i < availabilityString.length(); i++) {
+            availabilityArray[i] = availabilityString.charAt(i) == '1';
+        }
+        return availabilityArray;
+    }
+
+
+    /**
      * Sets the availability of the trainer.
      *
      * @param availabilityString the string representing the trainer's availability

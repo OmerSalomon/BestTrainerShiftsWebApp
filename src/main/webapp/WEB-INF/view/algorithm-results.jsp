@@ -60,7 +60,7 @@
             <th>Day</th>
             <th>Morning</th>
             <th>Noon</th>
-            <th>Afternoon</th>
+            <th>Evening</th>
         </tr>
         </thead>
         <tbody>
@@ -110,10 +110,15 @@
                         <c:if test="${scheduleMatrix[trainerStatus.index][dayIndex * 3 + shift] != -1}">
                             ${"V"}<br>
                         </c:if>
+                        <!-- Added condition to check if trainer is available but not in a shift -->
+                        <c:if test="${trainer.availabilityArray[dayIndex * 3 + shift] && scheduleMatrix[trainerStatus.index][dayIndex * 3 + shift] == -1}">
+                            ${"X"}<br>
+                        </c:if>
                     </td>
                 </c:forEach>
             </tr>
         </c:forEach>
+
         </tbody>
     </table>
 </c:forEach>
