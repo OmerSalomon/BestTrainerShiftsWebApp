@@ -100,6 +100,14 @@ public class GeneticAlgorithm {
         return bestSchedule;
     }
 
+    private double calculateAvgFitness(Schedule[] schedules) {
+        double sum = 0;
+        for (Schedule schedule : schedules) {
+            sum += schedule.getFitness();
+        }
+        return sum / schedules.length;
+    }
+
     /**
      * Executes the genetic algorithm.
      * @param generationAmount the number of generations to run.
